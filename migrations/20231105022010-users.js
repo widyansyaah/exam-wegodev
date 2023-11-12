@@ -19,9 +19,8 @@ module.exports = {
       unique: true
     },
     role: {
-      type: Sequelize.ENUM('Admin', 'Member'),
+      type: Sequelize.ENUM('Super Admin', 'Creator'),
       allowNull: false,
-      defaultValue: 'Member'
     },
     password: {
       type: Sequelize.STRING,

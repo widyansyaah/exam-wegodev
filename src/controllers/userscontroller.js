@@ -1,6 +1,7 @@
 const { Users } = require('../../models')
 const bcrypt = require('bcrypt')
 
+//get all users
 const getAllUsers = async (req, res) => {
     try {
         const user = await Users.findAll()
@@ -16,13 +17,17 @@ const getAllUsers = async (req, res) => {
 //create user
 const createUser = async (req, res) => {
     try {
-        let body = req.body
-        const { fullName, email, password } = body 
+        const body = req.body
+        const { fullName, email, newPassword, confirmNewPassword, role, status } = body 
+
+        if (newPassword !== confirmNewPassword) {
+            throw new Error('Password and confirmNewPassword Must Be Same')
+        }
 
         const saltRounds = 10
-        const hashPassword = bcrypt.hashSync(password,saltRounds)
+        const hashPassword = bcrypt.hashSync(newPassword,saltRounds)
 
-        await Users.create({ fullName, email, password: hashPassword })
+        await Users.create({ fullName, email, password: hashPassword, role, status })
         
         res.status(201).json({message : 'User Created'})
     } catch (error) {
@@ -35,17 +40,25 @@ const updateUser = async (req, res) => {
     try {
         const id = req.params.id;
         const body = req.body;
-        const { fullName, email, status } = body;
+        const { fullName, email, newPassword, confirmNewPassword, status, avatar, role } = body;
         const user = await Users.findByPk(id);
 
         if (!user) {
             throw new Error('User not found');
         }
 
-        await Users.update({ fullName, email, status }, { where: { id } });
+        if (newPassword !== confirmNewPassword) {
+            throw new Error('Password and confirmNewPassword Must Be Same')
+        } 
+          
+        const saltRounds = 10
+        const hashPassword = bcrypt.hashSync(newPassword,saltRounds)
+
+        await Users.update({ fullName, email, password: hashPassword, status, avatar, role }, { where: { id } });
 
         res.status(201).json({ message: "User Updated" });
     } catch (error) {
+        console.log('error', error)
         res.status(500).json({ message: 'Internal server error' });
     }
 }
