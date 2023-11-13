@@ -16,6 +16,15 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true
       },
+      status: {
+        type: Sequelize.ENUM('Published', 'Unpublished'),
+        allowNull: false,
+        defaultValue: 'Published'
+      },
+      slug: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       categoryId: {
         type: Sequelize.UUID,
         allowNull: true

@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Posts.belongsTo(models.Categories)
     }
   }
   Posts.init({
@@ -26,6 +26,15 @@ module.exports = (sequelize, DataTypes) => {
     description: {
       type: Sequelize.STRING,
       allowNull: true
+    },
+    status: {
+      type: Sequelize.ENUM('Published', 'Unpublished'),
+      allowNull: false,
+      defaultValue: 'Published'
+    },
+    slug: {
+      type: Sequelize.STRING,
+      allowNull: false,
     },
     categoryId: {
       type: Sequelize.UUID,

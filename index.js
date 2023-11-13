@@ -9,9 +9,13 @@ app.use(express.json())
 //import router
 const userRouter = require('./src/routes/users.routes')
 const categoryRouter = require('./src/routes/categories.routes')
+const postRouter = require('./src/routes/posts.routes')
+
 
 app.use('/api',userRouter)
 app.use('/api',categoryRouter)
+app.use('/api',postRouter)
+
 
 
 app.listen(port, () => {

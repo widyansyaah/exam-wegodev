@@ -22,7 +22,7 @@ const createUser = async (req, res) => {
 
         if (newPassword !== confirmNewPassword) {
             throw new Error('Password and confirmNewPassword Must Be Same')
-        }
+        } 
 
         const saltRounds = 10
         const hashPassword = bcrypt.hashSync(newPassword,saltRounds)
@@ -42,21 +42,30 @@ const updateUser = async (req, res) => {
         const body = req.body;
         const { fullName, email, newPassword, confirmNewPassword, status, avatar, role } = body;
         const user = await Users.findByPk(id);
+        const userPassword = user.password
+
+        //compare
+        const comparePassword = bcrypt.compareSync(newPassword, userPassword )
+        
 
         if (!user) {
             throw new Error('User not found');
+        } else {
+            if (newPassword !== confirmNewPassword) {
+                throw new Error('Password and confirmNewPassword Must Be Same')
+            } else if (comparePassword === true ) {
+    
+                await Users.update({ fullName, email, status, avatar, role }, { where: { id } });
+                res.status(201).json({ message: "User Updated" });
+            } else {
+                const saltRounds = 10
+                const hashPassword = bcrypt.hashSync(newPassword,saltRounds)
+                
+                await Users.update({ fullName, email, password: hashPassword, status, avatar, role }, { where: { id } });
+                res.status(201).json({ message: "User Updated" });
+            }
+
         }
-
-        if (newPassword !== confirmNewPassword) {
-            throw new Error('Password and confirmNewPassword Must Be Same')
-        } 
-          
-        const saltRounds = 10
-        const hashPassword = bcrypt.hashSync(newPassword,saltRounds)
-
-        await Users.update({ fullName, email, password: hashPassword, status, avatar, role }, { where: { id } });
-
-        res.status(201).json({ message: "User Updated" });
     } catch (error) {
         console.log('error', error)
         res.status(500).json({ message: 'Internal server error' });
