@@ -16,11 +16,17 @@ const getAllPosts = async (req, res) => {
         }
         
         const post = await Posts.findAll({
-            // include: [
-            //     {
-            //         model: PostsCategories
-            //     }
-            // ],
+            include: [
+                {
+                    model: PostsCategories,
+                    as: 'categories',
+                    include: 
+                        {
+                            model: Categories,
+                            as: 'category'
+                        }
+                }
+            ],
             limit: pageSize,
             offset: (page - 1) * pageSize,
             where,
@@ -44,26 +50,25 @@ const createPost = async (req, res) => {
     const slug = body.title.replace(/ /g, '-').toLowerCase()
     
     try {
+
         const transaction = await sequelize.transaction();
 
         const post = await Posts.create({ title, description, slug }, {transaction})
 
-        const validCategoryIds = await Categories.findAll({
-            where: {
-              id: categoryId,
-            },
-            attributes: ['id'],
-          });
-      
-          const validCategoryIdsArray = validCategoryIds.map(category => category.id);
-          const invalidCategoryIds = categoryId.filter(id => !validCategoryIdsArray.includes(id));
+        // cek id category tsb eksis atau tidak & mengelompokannya
+        const validCategoryIds = await Categories.findAll({ where: { id: categoryId } });
+        const validCategoryIdsArray = validCategoryIds.map(category => category.id);
 
-          if (invalidCategoryIds.length > 0) {
+        const invalidCategoryIds = categoryId.filter(id => !validCategoryIdsArray.includes(id));
 
-            await transaction.rollback();
-            return res.status(400).json({ error: `Invalid category IDs: ${invalidCategoryIds.join(', ')}` });
-          }
+        // cek ada id category yang tidak eksis atau ga
+        if (invalidCategoryIds.length > 0) {
 
+          await transaction.rollback();
+          return res.status(400).json({ error: `Invalid category Ids: ${invalidCategoryIds.join(', ')}` });
+        }
+
+        // looping for insert data
         for (const categoryIds of categoryId) {
             await PostsCategories.create({
                 postId: post.id,
@@ -71,9 +76,21 @@ const createPost = async (req, res) => {
             }, { transaction})
         }
 
+        
         await transaction.commit()
+        
+        const finalPost = await Posts.findByPk(post.id, {
+            include: [
+                {
+                    model: PostsCategories
+                }
+            ]
+        })
+        
+        const resp = buildResponse.create({data :finalPost})
 
-        res.status(201).json({message : 'Post Created'})
+
+        res.status(201).json(resp)
     } catch (error) {
         console.log(error)
         await transaction.rollback();
@@ -123,118 +140,34 @@ const updatePost = async (req, res) => {
     const slug = body.title.replace(/ /g, '-').toLowerCase()
     try {
         const transaction = await sequelize.transaction();
-
+        
+        // cek post id
         const validPostId = await Posts.findByPk(id)
-
-        // pengecekan post id pada table posts
+        
         if (!validPostId) {
             await transaction.rollback();
             return res.status(400).json({ message : `Invalid Post Id` });
         }
-
-        // await Posts.update({ title, description, slug, status }, { where : { id:postId }, transaction})
-
-        // pengecekan post id pada table post categories
-        const postCategoriesCount = await PostsCategories.count({
-            where: { postId },
-        });
-    
-        if (postCategoriesCount === 0) {
-            await transaction.rollback();
-            return res.status(400).json({ message: `Data Error.` });
-        }
-
-        // const validCategoryIds = await PostsCategories.findAll({
-        //     where: {
-        //       postId,
-        //       categoryId,
-        //     },
-        //     attributes: ['categoryId'],
-        //   });
-      
-        // const validCategoryIdsArray = validCategoryIds.map(category => category.categoryId);
-      
-        // // Tentukan kategori yang perlu dihapus
-        // const categoriesToRemove = validCategoryIdsArray.filter(id => !categoryId.includes(id));
-
-        // // Hapus kategori yang tidak disertakan dalam permintaan API
-        // if (categoriesToRemove.length > 0) {
-        // await PostsCategories.destroy({
-        //     where: {
-        //     postId,
-        //     categoryId: categoriesToRemove,
-        //     },
-        //     transaction,
-        // });
-        // }
-
-        // // Pengecekan apakah categoryIds valid
-        // const validCategoryIdsNew = await Categories.findAll({
-        //     where: {
-        //     id: categoryId,
-        //     },
-        //     attributes: ['id'],
-        // });
-    
-        // const validCategoryIdsArrayNew = validCategoryIdsNew.map(category => category.id);
-        // const invalidCategoryIds = categoryId.filter(id => !validCategoryIdsArrayNew.includes(id));
-  
-        // if (invalidCategoryIds.length > 0) {
-        //     // Rollback transaksi jika ada ID kategori yang tidak valid
-        //     await transaction.rollback();
-        //     return res.status(400).json({ error: `Invalid category IDs: ${invalidCategoryIds.join(', ')}` });
-        //   }
-
-        // //------
-        // const currentCategories = await PostsCategories.findAll({
-        //     where: { postId },
-        //     attributes: ['categoryId'],
-        //   });
-
-        //   const currentCategoryIds = currentCategories.map(category => category.categoryId);
-
-        //   const categoriesToRemove = currentCategoryIds.filter(id => !categoryId.includes(id));
-      
-        //   if (categoriesToRemove.length > 0) {
-        //     await PostsCategories.destroy({
-        //       where: {
-        //         postId,
-        //         categoryId: categoriesToRemove,
-        //       },
-        //       transaction,
-        //     });
-        //   }
         
-        // const validCategoryIds = await Categories.findAll({
-        //     where: {
-        //       id: categoryId,
-        //     },
-        //     attributes: ['id'],
-        //   });
-      
-        //   const validCategoryIdsArray = validCategoryIds.map(category => category.id);
-        //   const invalidCategoryIds = categoryId.filter(id => !validCategoryIdsArray.includes(id));
+        // delete postscategories relation
+        await PostsCategories.destroy({ where: { postId: id }, transaction})
 
-        //   if (invalidCategoryIds.length > 0) {
+        // update database table post
+        await Posts.update({ title, description, slug, status }, { where : { id }, transaction})
+        console.log('id',id)
 
-        //     await transaction.rollback();
-        //     return res.status(400).json({ error: `Invalid category IDs: ${invalidCategoryIds.join(', ')}` });
-        //   }
-
-        // for (const categoryIds of categoryId) {
-        //     await PostsCategories.create({
-        //         postId: post.id,
-        //         categoryId: categoryIds,
-        //     }, { transaction})
-        // }
+        // create database table postCategories
+        // looping for insert data
+        for (const categoryIds of categoryId) {
+            await PostsCategories.create({
+                postId: id,
+                categoryId: categoryIds,
+            }, { transaction})
+        }
 
         await transaction.commit()
 
-        res.status(201).json({message : 'Post Created'})
-        
-    
-        await Posts.update( { title, description, slug, status, categoryId}, { where: { id } })
-        res.status(201).json('Post Updated')
+        res.status(200).json('Post Updated')
     } catch (error) {
         console.log(error)
         res.status(500).json('Internal Server Error')

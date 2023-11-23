@@ -15,12 +15,12 @@ const getAllUsers = async (req, res) => {
         }
 
         const user = await Users.findAll({
-            // include: [
-            //         {
-            //             model: Files,
-            //             foreignKey: 'avatar' 
-            //         }
-            //     ],
+            include: [
+                    {
+                        model: Files,
+                        as: 'avatarData'
+                    }
+                ],
             limit: pageSize,
             offset: (page - 1) * pageSize,
             where,
