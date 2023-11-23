@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Posts.belongsTo(models.Categories)
+      // Posts.belongsTo(models.Categories)
     }
   }
   Posts.init({
@@ -35,10 +35,7 @@ module.exports = (sequelize, DataTypes) => {
     slug: {
       type: Sequelize.STRING,
       allowNull: false,
-    },
-    categoryId: {
-      type: Sequelize.UUID,
-      allowNull: true
+      unique: true
     },
     createdAt: {
       allowNull: false,

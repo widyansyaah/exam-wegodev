@@ -24,10 +24,7 @@ module.exports = {
       slug: {
         type: Sequelize.STRING,
         allowNull: false,
-      },
-      categoryId: {
-        type: Sequelize.UUID,
-        allowNull: true
+        unique: true
       },
       createdAt: {
         allowNull: false,

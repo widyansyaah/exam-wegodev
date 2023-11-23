@@ -1,13 +1,38 @@
-const { Users } = require('../../models')
+const { Users, Files } = require('../../models')
 const bcrypt = require('bcrypt')
+const buildResponse = require('../modules/buildresponse')
 
 //get all users
 const getAllUsers = async (req, res) => {
     try {
-        const user = await Users.findAll()
-        res.status(200).json(user)
-        
+        let { page, pageSize, fullName } = req.query
+        page = parseInt(page) || 1
+        pageSize = parseInt(pageSize) || 10
+
+        let where = {}
+        if (fullName) {
+            where = { fullName }
+        }
+
+        const user = await Users.findAll({
+            // include: [
+            //         {
+            //             model: Files,
+            //             foreignKey: 'avatar' 
+            //         }
+            //     ],
+            limit: pageSize,
+            offset: (page - 1) * pageSize,
+            where,
+        })
+
+        const total = await Users.count()
+        const resp = buildResponse.get({ data: user, total})
+
+        res.status(200).json(resp)
+
     } catch (error) {
+        console.log('error', error)
         res.status(500).json({message : 'Internal Server Error'})
         
     }
@@ -20,7 +45,7 @@ const createUser = async (req, res) => {
         const body = req.body
         const { fullName, email, newPassword, confirmNewPassword, role, status } = body 
 
-        if (newPassword !== confirmNewPassword) {
+        if (newPassword !== confirmNewPassword || newPassword.length <= 4 || newPassword == "") {
             throw new Error('Password and confirmNewPassword Must Be Same')
         } 
 
@@ -28,9 +53,13 @@ const createUser = async (req, res) => {
         const hashPassword = bcrypt.hashSync(newPassword,saltRounds)
 
         await Users.create({ fullName, email, password: hashPassword, role, status })
+        const user = await Users.findOne({ where : {email}})
+        const resp = buildResponse.create({user})
+
         
-        res.status(201).json({message : 'User Created'})
+        res.status(201).json(resp)
     } catch (error) {
+        console.log(error)
         res.status(500).json({message : 'Internal Server Error'})
     }
 }
@@ -51,24 +80,28 @@ const updateUser = async (req, res) => {
         if (!user) {
             throw new Error('User not found');
         } else {
-            if (newPassword !== confirmNewPassword) {
-                throw new Error('Password and confirmNewPassword Must Be Same')
-            } else if (comparePassword === true ) {
-    
-                await Users.update({ fullName, email, status, avatar, role }, { where: { id } });
-                res.status(201).json({ message: "User Updated" });
+            if (newPassword === "" && confirmNewPassword === "") {
+                await Users.update({ fullName, email, status, avatar, role }, { where: { id } })
+            } else if (newPassword.length <= 4 || newPassword !== confirmNewPassword) {
+                if (newPassword.length <= 4) {
+                    throw new Error('Password Length Must Be Longer Than 4 Character')
+                } else {
+                    throw new Error('Password and confirmNewPassword Must Be Same')
+                }
             } else {
                 const saltRounds = 10
                 const hashPassword = bcrypt.hashSync(newPassword,saltRounds)
                 
                 await Users.update({ fullName, email, password: hashPassword, status, avatar, role }, { where: { id } });
-                res.status(201).json({ message: "User Updated" });
             }
+            const updatedUser = await Users.findByPk(id)
+            const resp = buildResponse.update({updatedUser})
+            res.status(201).json(resp);
 
         }
     } catch (error) {
-        console.log('error', error)
-        res.status(500).json({ message: 'Internal server error' });
+        console.log(error)
+        res.status(500).json({ message: 'Internal server error'});
     }
 }
 
@@ -78,11 +111,8 @@ const getUserById = async (req, res) => {
         const id = req.params.id;
         const user = await Users.findByPk(id);
 
-        if (!user) {
-            throw new Error('User not found');
-        }
-
-        res.status(200).json({ data: user });
+        const resp = buildResponse.get({user})
+        res.status(200).json(resp);
     } catch (error) {
         res.status(500).json({ message: 'Internal server error' });
     }
@@ -103,6 +133,7 @@ const deleteUser = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 }
+
 
 
 module.exports = {
