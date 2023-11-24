@@ -18,15 +18,10 @@ const getAllPosts = async (req, res) => {
         const post = await Posts.findAll({
             include: [
                 {
-                    model: PostsCategories,
-                    as: 'categories',
-                    include: 
-                        {
-                            model: Categories,
-                            as: 'category'
-                        }
-                }
-            ],
+                  model: Categories,
+                  as: 'categories',
+                },
+              ],
             limit: pageSize,
             offset: (page - 1) * pageSize,
             where,
