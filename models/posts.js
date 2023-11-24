@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'postId',
         as: 'categories',
       });
+      // Posts.has(models.PostsCategories, { through: 'PostsCategories', foreignKey: 'postId', as: 'postsCategories' });
     }
   }
   Posts.init({

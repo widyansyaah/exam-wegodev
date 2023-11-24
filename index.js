@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path')
 
 const app = express();
 const port = 3000;
@@ -14,7 +15,7 @@ const authRouter = require('./src/routes/auth.routes')
 const filesRouter = require('./src/routes/files.routes')
 
 
-
+app.use(express.static(path.join(__dirname, 'public/')))
 app.use('/api',userRouter)
 app.use('/api',categoryRouter)
 app.use('/api',postRouter)

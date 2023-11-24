@@ -1,5 +1,11 @@
 const { Categories } = require('../../models')
 const buildResponse = require('../modules/buildresponse')
+const yup = require('yup')
+
+// schema
+const createCategorySchema = yup.object().shape({
+    title: yup.string().required('title is Required Field'),
+})
 
 //get all categories
 const getAllCategories = async(req, res) => {
@@ -33,14 +39,23 @@ const getAllCategories = async(req, res) => {
 const createCategory = async(req, res) => {
     try {
         const body = req.body
-        const { title } = body
 
-        await Categories.create({ title })
+        createCategorySchema.validate(body)
+            .then(async(valid) => {
+                const { title } = valid
 
-        const categories = await Categories.findOne({ where : {title}})
-        const resp = buildResponse.create({categories})
-        
-        res.status(201).json(resp)
+                await Categories.create({ title })
+                const categories = await Categories.findOne({ where : {title}})
+                const resp = buildResponse.create({categories})
+                
+                res.status(201).json(resp)
+            } )
+            .catch((error) => {
+                res.status(400).json({ message : error.message})
+
+            })
+
+
     } catch (error) {
         res.status(500).json({ message: "Internal Server Error"})
         
@@ -53,18 +68,27 @@ const updateCategory = async (req, res) => {
     try {
         const id = req.params.id;
         const body = req.body;
-        const { title } = body;
         const category = await Categories.findByPk(id);
 
-        if (!category) {
-            throw new Error('Category not found');
-        }
+        
+        createCategorySchema.validate(body)
+        .then(async(valid) => {
+            const { title } = valid
+                if (!category) {
+                    return res.status(400).json({ message : 'Data Not Found'})
+                }
 
-        await Categories.update({ title }, { where: { id } });
-        const updatedCategory = await Categories.findByPk(id)
+                await Categories.update({ title }, { where: { id } });
+                const updatedCategory = await Categories.findByPk(id)
+        
+                const resp = buildResponse.update({updatedCategory})
+                res.status(201).json(resp);
+            } )
+            .catch((error) => {
+                res.status(400).json({ message : error.message})
 
-        const resp = buildResponse.update({updatedCategory})
-        res.status(201).json(resp);
+            })
+
     } catch (error) {
         console.log('error', error)
         res.status(500).json({ message: 'Internal server error' });

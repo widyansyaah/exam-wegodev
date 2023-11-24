@@ -7,7 +7,8 @@ const upload = async (req, res) => {
         const id = req.params.id
         const file = req.file
         const { filename, mimetype, path } = file 
-        const url = req.header('host')
+        const url = req.header(app.use(express.static(path.join(__dirname, 'public/')))
+)
         const result = await Files.create({ url: url, fileName: filename, type: mimetype, path })
         const userId = await Users.findByPk(id)
 

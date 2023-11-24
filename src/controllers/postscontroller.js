@@ -1,6 +1,14 @@
 const { Posts, PostsCategories, Categories, sequelize } = require('../../models')
 const buildResponse = require('../modules/buildresponse')
+const yup = require('yup')
 
+// schema
+const createPostSchema = yup.object().shape({
+    title: yup.string().required('title is Required Field'),
+    description: yup.string().required('description is Required Field'),
+    status: yup.string().required('status is Required Field'),
+    categoryId: yup.string().required('categoryId is Required Field'),
+})
 
 //get all posts
 const getAllPosts = async (req, res) => {
@@ -54,6 +62,7 @@ const createPost = async (req, res) => {
         const validCategoryIds = await Categories.findAll({ where: { id: categoryId } });
         const validCategoryIdsArray = validCategoryIds.map(category => category.id);
 
+
         const invalidCategoryIds = categoryId.filter(id => !validCategoryIdsArray.includes(id));
 
         // cek ada id category yang tidak eksis atau ga
@@ -71,15 +80,15 @@ const createPost = async (req, res) => {
             }, { transaction})
         }
 
-        
         await transaction.commit()
         
         const finalPost = await Posts.findByPk(post.id, {
             include: [
                 {
-                    model: PostsCategories
-                }
-            ]
+                  model: Categories,
+                  as: 'categories',
+                },
+              ],
         })
         
         const resp = buildResponse.create({data :finalPost})
