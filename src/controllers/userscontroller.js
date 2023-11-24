@@ -161,7 +161,9 @@ const deleteUser = async (req, res) => {
             throw new Error('User not found');
         }
 
-        res.status(201).json({ message: "User Deleted" });
+        const resp = buildResponse.del()
+
+        res.status(201).json(resp);
     } catch (error) {
         res.status(500).json({ message: 'Internal server error' });
     }

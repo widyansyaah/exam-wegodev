@@ -8,6 +8,8 @@ router.post('/v1/post', PostController.createPost)
 router.get('/v1/post/get-by-slug/:slug', PostController.getPostBySlug)
 router.get('/v1/post/:id', PostController.getPostById)
 router.put('/v1/post/:id', PostController.updatePost)
+router.delete('/v1/post/:id', PostController.deletePost)
+
 
 
 
