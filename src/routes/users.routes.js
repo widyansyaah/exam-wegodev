@@ -5,10 +5,10 @@ const Authentication = require('../middlewares/authentication')
 
 const UserController = require('../controllers/userscontroller')
 
-router.get('/v1/user', UserController.getAllUsers)
+router.get('/v1/user', Authentication.authentication, UserController.getAllUsers)
 router.post('/v1/user', UserController.createUser)
-router.put('/v1/user/:id', UserController.updateUser)
+router.put('/v1/user/:id', Authentication.authentication, UserController.updateUser)
 router.get('/v1/user/:id', UserController.getUserById)
-router.delete('/v1/user/:id', UserController.deleteUser)
+router.delete('/v1/user/:id', Authentication.authentication, UserController.deleteUser)
 
 module.exports = router
