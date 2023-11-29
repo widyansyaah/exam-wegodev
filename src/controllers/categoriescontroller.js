@@ -24,9 +24,11 @@ const getAllCategories = async(req, res) => {
             offset: (page - 1) * pageSize,
             where,
         })
-        const total = await Categories.count()
+        const count = category.length
+        let message = count + " data taken"
 
-        const resp = buildResponse.get({category, total})
+
+        const resp = buildResponse.get({message, count, category})
         res.status(200).json(resp)
     } catch (error) {
         res.status(500).json({ message: "Internal Server Error" })

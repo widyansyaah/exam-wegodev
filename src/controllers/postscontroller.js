@@ -34,9 +34,9 @@ const getAllPosts = async (req, res) => {
             offset: (page - 1) * pageSize,
             where,
         })
-        const total = await Posts.count()
-
-        const resp = buildResponse.get({post, total})
+        const count = post.length
+        let message = count + " data taken"
+        const resp = buildResponse.get({ message, count, data: post})
 
         res.status(200).json(resp)
     } catch (error) {
@@ -117,11 +117,11 @@ const getPostBySlug = async (req, res) => {
     try {
         const slug = req.params.slug
     
-        const postSlug = await Posts.findAll({ where: { slug } })
+        const data = await Posts.findAll({ where: { slug } })
 
-        const resp = buildResponse.get(postSlug)
+        const resp = buildResponse.get({data})
         
-        if (postSlug.length < 1) {
+        if (data.length < 1) {
             res.status(200).json({ message : 'Data Not Found'})
         } else {
             res.status(200).json(resp)
@@ -136,13 +136,13 @@ const getPostBySlug = async (req, res) => {
 const getPostById = async (req, res) => {
     try {
         const id = req.params.id
-        const post = await Posts.findByPk(id)
+        const data = await Posts.findByPk(id)
     
-        if (!post) {
+        if (!data) {
             throw new Error('Post Not Found')
         }
 
-        const resp = buildResponse.get({post})
+        const resp = buildResponse.get({data})
 
         res.status(200).json(resp)
     } catch (error) {
@@ -189,8 +189,8 @@ const updatePost = async (req, res) => {
 
             await transaction.commit()
 
-            const finalPosts = await Posts.findByPk(id)
-            const resp = buildResponse.update(finalPosts)
+            const data = await Posts.findByPk(id)
+            const resp = buildResponse.update({data})
 
             res.status(200).json(resp)
 
@@ -213,16 +213,18 @@ const updatePost = async (req, res) => {
 const deletePost = async (req, res) => {
     try {
         const id = req.params.id;
-        const post = await Posts.destroy({ where: { id } });
-
+        const post = await Posts.findByPk(id)
         if (!post) {
-            throw new Error('Post not found');
+            return res.json({message :'Post not found'});
         }
+        const data = await Posts.destroy({ where: { id } });
 
-        const resp = buildResponse.del()
+
+        const resp = buildResponse.del(data)
 
         res.status(201).json(resp);
     } catch (error) {
+        console.log('error', error)
         res.status(500).json({ message: 'Internal server error' });
     }
 }

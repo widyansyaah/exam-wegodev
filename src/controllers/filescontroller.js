@@ -1,5 +1,6 @@
 const { Files, Users } = require('../../models')
 const buildResponse = require('../modules/buildresponse')
+const path = require('path');
 
 
 
@@ -7,7 +8,8 @@ const upload = async (req, res) => {
     try {
         const file = req.file
         const { filename, mimetype, path } = file 
-        const url = req.get('host')
+        const url = 'http:\\' + req.get('host') + '\\' +path
+        
 
         const result = await Files.create({ url: url, fileName: filename, type: mimetype, path })
         const resp = buildResponse.create({result})

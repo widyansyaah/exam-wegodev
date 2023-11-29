@@ -54,6 +54,33 @@ const login = async (req, res) => {
     }
 }
 
+
+const profile = async (req, res) => {
+    try {
+        const token = req.headers.authorization
+        console.log('token', token)
+        if (token === undefined) {
+            throw new Error('Token Needed')
+        }
+        const decode = jwt.verify(token.split(' ')[1], env.SECRET_KEY, async (err, decode) => {
+            if (err) {
+                throw new Error(err.message)
+            }
+    
+            const id = decode.id
+            const data = await Users.findByPk(id)
+            
+            const resp = buildResponse.get({data})
+            res.status(201).json(resp)
+        })
+        
+    } catch (error) {
+        res.status(500).json({message : 'Internal Server Error'})
+        
+    }
+}
+
 module.exports = {
-    login
+    login,
+    profile
 }
