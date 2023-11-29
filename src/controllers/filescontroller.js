@@ -5,21 +5,11 @@ const buildResponse = require('../modules/buildresponse')
 
 const upload = async (req, res) => {
     try {
-        const id = req.params.id
         const file = req.file
         const { filename, mimetype, path } = file 
         const url = req.get('host')
 
-        console.log('url', url)
-
         const result = await Files.create({ url: url, fileName: filename, type: mimetype, path })
-        const userId = await Users.findByPk(id)
-
-        console.log(userId, 'userId')
-
-        await Users.update({ avatar : result.id }, { where: {id}})
-
-        // const file = await Files.
         const resp = buildResponse.create({result})
 
         

@@ -44,8 +44,9 @@ const getAllUsers = async (req, res) => {
             where,
         })
 
-        const total = await Users.count()
-        const resp = buildResponse.get({ data: user, total})
+        const count = await Users.count()
+        let message = count + " data taken"
+        const resp = buildResponse.get({ message, count, data: user})
 
         res.status(200).json(resp)
 

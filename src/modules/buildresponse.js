@@ -23,9 +23,16 @@ const del = (dataResponse) => ({
     ...dataResponse
 })
 
+const login = (dataResponse) => ({
+    code: 200,
+    message: 'Login Success',
+    ...dataResponse
+})
+
 module.exports = {
     get,
     create,
     update,
-    del
+    del,
+    login
 }

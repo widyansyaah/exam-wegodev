@@ -1,6 +1,8 @@
 const { Users } = require('../../models')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+const buildResponse = require('../modules/buildresponse')
+
 require('dotenv').config()
 
 const env = process.env
@@ -28,13 +30,18 @@ const login = async (req, res) => {
                     role: user.role,
                     id: user.id
                 }
-                const options = { expiresIn: '5m' }
+                const options = { expiresIn: '1h' }
                 const accessToken = jwt.sign(payload, env.SECRET_KEY, options)
         
-                const response = { accessToken, user }
-                // const buildResponse = BuildResponse.created({ response })
+                const response = { 
+                    accessToken,
+                    expiresIn: options.expiresIn,
+                    tokenType: 'Bearer',
+                    user }
+                
+                const resp = buildResponse.login(response)
         
-                return res.status(201).json(response)
+                return res.status(201).json(resp)
                 
             }
 
