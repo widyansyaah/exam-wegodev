@@ -13,19 +13,25 @@
 					"name": "Get All User Data",
 					"request": {
 						"auth": {
-							"type": "bearer"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiU3VwZXIgQWRtaW4iLCJpZCI6ImY0MjM1ZWYzLTdiNzYtNDEwOS04M2E5LWNiMjUxOGU4NTQyMCIsImlhdCI6MTcwMTI2MTA3OCwiZXhwIjoxNzAxMjY0Njc4fQ.OqOKk7KvccXzBOkOC9LfOzko4k6WxhgNhuahL3FTeZo",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/user",
+							"raw": "http://localhost:3000/v1/user",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"api",
 								"v1",
 								"user"
 							]
@@ -36,20 +42,29 @@
 				{
 					"name": "Get User Data By Id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiU3VwZXIgQWRtaW4iLCJpZCI6ImY0MjM1ZWYzLTdiNzYtNDEwOS04M2E5LWNiMjUxOGU4NTQyMCIsImlhdCI6MTcwMTI2MTM5NywiZXhwIjoxNzAxMjY0OTk3fQ.s3Mmjn_zt6XYz2OV-wnb6Ct3y7X4NTelFCbGf4nY2A4",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/user/308ff871-d6ca-44e9-9f87-7f3ff15c6c5f",
+							"raw": "http://localhost:3000/v1/user/0fa90ef3-2f1b-483e-9205-c8d614ecb891",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"api",
 								"v1",
 								"user",
-								"308ff871-d6ca-44e9-9f87-7f3ff15c6c5f"
+								"0fa90ef3-2f1b-483e-9205-c8d614ecb891"
 							]
 						}
 					},
@@ -58,6 +73,16 @@
 				{
 					"name": "Create User Data",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiU3VwZXIgQWRtaW4iLCJpZCI6ImY0MjM1ZWYzLTdiNzYtNDEwOS04M2E5LWNiMjUxOGU4NTQyMCIsImlhdCI6MTcwMTI2MTM5NywiZXhwIjoxNzAxMjY0OTk3fQ.s3Mmjn_zt6XYz2OV-wnb6Ct3y7X4NTelFCbGf4nY2A4",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -70,14 +95,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/user",
+							"raw": "http://localhost:3000/v1/user",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"api",
 								"v1",
 								"user"
 							]
@@ -88,6 +112,9 @@
 				{
 					"name": "Update User Data",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -100,17 +127,16 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/user/d95d3bac-b53a-475c-892c-c98279da9188",
+							"raw": "http://localhost:3000/v1/user/51af8b49-b0fd-4a6e-9a6c-bb3d32fe518b",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"api",
 								"v1",
 								"user",
-								"d95d3bac-b53a-475c-892c-c98279da9188"
+								"51af8b49-b0fd-4a6e-9a6c-bb3d32fe518b"
 							]
 						}
 					},
@@ -119,20 +145,29 @@
 				{
 					"name": "Delete User Data",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiU3VwZXIgQWRtaW4iLCJpZCI6ImY0MjM1ZWYzLTdiNzYtNDEwOS04M2E5LWNiMjUxOGU4NTQyMCIsImlhdCI6MTcwMTI2MTM5NywiZXhwIjoxNzAxMjY0OTk3fQ.s3Mmjn_zt6XYz2OV-wnb6Ct3y7X4NTelFCbGf4nY2A4",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/user/e1246e12-353b-48dd-bd3c-6ddcf358a95a",
+							"raw": "http://localhost:3000/v1/user/51af8b49-b0fd-4a6e-9a6c-bb3d32fe518b",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"api",
 								"v1",
 								"user",
-								"e1246e12-353b-48dd-bd3c-6ddcf358a95a"
+								"51af8b49-b0fd-4a6e-9a6c-bb3d32fe518b"
 							]
 						}
 					},
@@ -141,29 +176,38 @@
 				{
 					"name": "Upload Avatar",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQ3JlYXRvciIsImlkIjoiMGZhOTBlZjMtMmYxYi00ODNlLTkyMDUtYzhkNjE0ZWNiODkxIiwiaWF0IjoxNzAxMjYwNzg4LCJleHAiOjE3MDEyNjQzODh9.NlfXyB-Xe18QsD0UUpMCxqsZ9UvVKQIgdETjvb0Wpbk",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
 								{
-									"key": "file",
+									"key": "documen",
 									"type": "file",
-									"src": "/C:/Users/widya/Downloads/implementasi.png"
+									"src": "/C:/Users/widya/Downloads/image-removebg-preview.png"
 								}
 							]
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/upload/acbcc54c-e062-4166-a3df-7f9f6ea500ee",
+							"raw": "http://localhost:3000/v1/upload",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"api",
-								"upload",
-								"acbcc54c-e062-4166-a3df-7f9f6ea500ee"
+								"v1",
+								"upload"
 							]
 						}
 					},
@@ -177,19 +221,43 @@
 				{
 					"name": "Get All Categories",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiU3VwZXIgQWRtaW4iLCJpZCI6ImY0MjM1ZWYzLTdiNzYtNDEwOS04M2E5LWNiMjUxOGU4NTQyMCIsImlhdCI6MTcwMTI2MTM5NywiZXhwIjoxNzAxMjY0OTk3fQ.s3Mmjn_zt6XYz2OV-wnb6Ct3y7X4NTelFCbGf4nY2A4",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/category",
+							"raw": "http://localhost:3000/v1/category?page=1&pageSize=10",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"api",
 								"v1",
 								"category"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "10"
+								},
+								{
+									"key": "title",
+									"value": "",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -201,17 +269,16 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/category/7d92ac95-48c2-4cb8-af0e-09a140f33c3a",
+							"raw": "http://localhost:3000/v1/category/1b01e9fe-6dfd-4d2b-9ac6-f53b5a6aa719",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"api",
 								"v1",
 								"category",
-								"7d92ac95-48c2-4cb8-af0e-09a140f33c3a"
+								"1b01e9fe-6dfd-4d2b-9ac6-f53b5a6aa719"
 							]
 						}
 					},
@@ -220,6 +287,16 @@
 				{
 					"name": "Create Category",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiU3VwZXIgQWRtaW4iLCJpZCI6ImY0MjM1ZWYzLTdiNzYtNDEwOS04M2E5LWNiMjUxOGU4NTQyMCIsImlhdCI6MTcwMTI2MTM5NywiZXhwIjoxNzAxMjY0OTk3fQ.s3Mmjn_zt6XYz2OV-wnb6Ct3y7X4NTelFCbGf4nY2A4",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -232,14 +309,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/category",
+							"raw": "http://localhost:3000/v1/category",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"api",
 								"v1",
 								"category"
 							]
@@ -250,6 +326,16 @@
 				{
 					"name": "Update Category",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiU3VwZXIgQWRtaW4iLCJpZCI6ImY0MjM1ZWYzLTdiNzYtNDEwOS04M2E5LWNiMjUxOGU4NTQyMCIsImlhdCI6MTcwMTI2MTM5NywiZXhwIjoxNzAxMjY0OTk3fQ.s3Mmjn_zt6XYz2OV-wnb6Ct3y7X4NTelFCbGf4nY2A4",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -262,17 +348,16 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/category/84134438-7330-4cae-9199-532310cd84b8",
+							"raw": "http://localhost:3000/v1/category/8689d9d0-e006-4bbd-808f-0d7d9fc9d2bf",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"api",
 								"v1",
 								"category",
-								"84134438-7330-4cae-9199-532310cd84b8"
+								"8689d9d0-e006-4bbd-808f-0d7d9fc9d2bf"
 							]
 						}
 					},
@@ -281,20 +366,29 @@
 				{
 					"name": "Delete Category",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiU3VwZXIgQWRtaW4iLCJpZCI6ImY0MjM1ZWYzLTdiNzYtNDEwOS04M2E5LWNiMjUxOGU4NTQyMCIsImlhdCI6MTcwMTI2MTM5NywiZXhwIjoxNzAxMjY0OTk3fQ.s3Mmjn_zt6XYz2OV-wnb6Ct3y7X4NTelFCbGf4nY2A4",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/category/6c2da446-5e27-4a95-9eb2-c347252c4905",
+							"raw": "http://localhost:3000/v1/category/8689d9d0-e006-4bbd-808f-0d7d9fc9d2bf",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"api",
 								"v1",
 								"category",
-								"6c2da446-5e27-4a95-9eb2-c347252c4905"
+								"8689d9d0-e006-4bbd-808f-0d7d9fc9d2bf"
 							]
 						}
 					},
@@ -308,17 +402,26 @@
 				{
 					"name": "Get All Posts",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiU3VwZXIgQWRtaW4iLCJpZCI6ImY0MjM1ZWYzLTdiNzYtNDEwOS04M2E5LWNiMjUxOGU4NTQyMCIsImlhdCI6MTcwMTI2MTM5NywiZXhwIjoxNzAxMjY0OTk3fQ.s3Mmjn_zt6XYz2OV-wnb6Ct3y7X4NTelFCbGf4nY2A4",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/post",
+							"raw": "http://localhost:3000/v1/post",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"api",
 								"v1",
 								"post"
 							]
@@ -332,18 +435,17 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/post/get-by-slug/padi-lebih-baik-daripada-jagung",
+							"raw": "http://localhost:3000/v1/post/get-by-slug/dynamic-factors-strategist",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"api",
 								"v1",
 								"post",
 								"get-by-slug",
-								"padi-lebih-baik-daripada-jagung"
+								"dynamic-factors-strategist"
 							]
 						}
 					},
@@ -355,17 +457,16 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/post/ee65b5bd-f5a6-49a3-84d6-53fa90627204",
+							"raw": "http://localhost:3000/v1/post/5fe035b3-f66c-41e9-b2a7-ccc9c5cc5827",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"api",
 								"v1",
 								"post",
-								"ee65b5bd-f5a6-49a3-84d6-53fa90627204"
+								"5fe035b3-f66c-41e9-b2a7-ccc9c5cc5827"
 							]
 						}
 					},
@@ -374,11 +475,21 @@
 				{
 					"name": "Create Post",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiU3VwZXIgQWRtaW4iLCJpZCI6ImY0MjM1ZWYzLTdiNzYtNDEwOS04M2E5LWNiMjUxOGU4NTQyMCIsImlhdCI6MTcwMTI2MTM5NywiZXhwIjoxNzAxMjY0OTk3fQ.s3Mmjn_zt6XYz2OV-wnb6Ct3y7X4NTelFCbGf4nY2A4",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"{{$randomJobTitle}}\",\r\n    \"description\": \"{{$randomJobTitle}}\",\r\n    \"status\": \"Published\",\r\n    \"categoryId\": [\r\n        \"19887002-c82e-4ab9-ab90-32d55c11a9a8\",\r\n        \"876dbc8d-5a72-4d0a-8859-a185f3e4b73b\"\r\n    ]\r\n}",
+							"raw": "{\r\n    \"title\": \"{{$randomJobTitle}}\",\r\n    \"description\": \"{{$randomJobTitle}}\",\r\n    \"status\": \"Published\",\r\n    \"categoryId\": [\r\n        \"1b01e9fe-6dfd-4d2b-9ac6-f53b5a6aa719\"\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -386,14 +497,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/post",
+							"raw": "http://localhost:3000/v1/post",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"api",
 								"v1",
 								"post"
 							]
@@ -404,6 +514,16 @@
 				{
 					"name": "Update Post",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiU3VwZXIgQWRtaW4iLCJpZCI6ImY0MjM1ZWYzLTdiNzYtNDEwOS04M2E5LWNiMjUxOGU4NTQyMCIsImlhdCI6MTcwMTI2MTM5NywiZXhwIjoxNzAxMjY0OTk3fQ.s3Mmjn_zt6XYz2OV-wnb6Ct3y7X4NTelFCbGf4nY2A4",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -416,17 +536,16 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/post/0e920ee8-bb20-418e-b13c-76b648e4cd66",
+							"raw": "http://localhost:3000/v1/post/9c59e8d8-4782-405c-83f5-bffae4d070f7",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"api",
 								"v1",
 								"post",
-								"0e920ee8-bb20-418e-b13c-76b648e4cd66"
+								"9c59e8d8-4782-405c-83f5-bffae4d070f7"
 							]
 						}
 					},
@@ -435,20 +554,29 @@
 				{
 					"name": "Delete Post",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiU3VwZXIgQWRtaW4iLCJpZCI6ImY0MjM1ZWYzLTdiNzYtNDEwOS04M2E5LWNiMjUxOGU4NTQyMCIsImlhdCI6MTcwMTI2MTM5NywiZXhwIjoxNzAxMjY0OTk3fQ.s3Mmjn_zt6XYz2OV-wnb6Ct3y7X4NTelFCbGf4nY2A4",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/category/6c2da446-5e27-4a95-9eb2-c347252c4905",
+							"raw": "http://localhost:3000/v1/post/5fe035b3-f66c-41e9-b2a7-ccc9c5cc5827",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"api",
 								"v1",
-								"category",
-								"6c2da446-5e27-4a95-9eb2-c347252c4905"
+								"post",
+								"5fe035b3-f66c-41e9-b2a7-ccc9c5cc5827"
 							]
 						}
 					},
@@ -458,12 +586,52 @@
 		},
 		{
 			"name": "Login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"Giovanna4@yahoo.com\",\r\n    \"password\": \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/v1/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Profile",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
 			"request": {
 				"auth": {
-					"type": "noauth"
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQ3JlYXRvciIsImlkIjoiMGZhOTBlZjMtMmYxYi00ODNlLTkyMDUtYzhkNjE0ZWNiODkxIiwiaWF0IjoxNzAxMjYwOTk3LCJleHAiOjE3MDEyNjQ1OTd9.3zPj3p76t1Qe-RLhr3gCO0DtqMmbPGlyoIi5zvfxdZ0",
+							"type": "string"
+						}
+					]
 				},
 				"method": "GET",
 				"header": [],
@@ -477,17 +645,15 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/api/v1/auth/login",
+					"raw": "http://localhost:3000/v1/profile",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
-						"api",
 						"v1",
-						"auth",
-						"login"
+						"profile"
 					]
 				}
 			},
