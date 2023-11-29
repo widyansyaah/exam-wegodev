@@ -36,11 +36,11 @@ const filesRouter = require('./src/routes/files.routes');
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec) )
 app.use(express.static(path.join(__dirname, 'public/')))
-app.use('/api',userRouter)
-app.use('/api',categoryRouter)
-app.use('/api',postRouter)
-app.use('/api',authRouter)
-app.use('/api',filesRouter)
+app.use(userRouter)
+app.use(categoryRouter)
+app.use(postRouter)
+app.use(authRouter)
+app.use(filesRouter)
 
 
 

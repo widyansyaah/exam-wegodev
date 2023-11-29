@@ -26,7 +26,7 @@ const superAdminAuthentication = (req, res, next) => {
         if (err) {
             throw new Error(err.message)
         } else if (decode.role !== 'Super Admin') {
-            res.status(400).json({message :'You are not Super Admin'})
+            throw new Error('You are not Super Admin')
         }
 
     })

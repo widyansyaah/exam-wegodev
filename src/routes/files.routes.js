@@ -6,6 +6,6 @@ const Authentication = require('../middlewares/authentication')
 const { upload } = require('../middlewares/multer')
 const UploadController = require('../controllers/filescontroller')
 
-router.post('/upload', Authentication.authentication, upload.single('documen'), UploadController.upload)
+router.post('/v1/upload', Authentication.authentication, upload.single('documen'), UploadController.upload)
 
 module.exports = router
