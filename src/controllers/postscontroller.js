@@ -27,15 +27,17 @@ const getAllPosts = async (req, res) => {
             include: [
                 {
                   model: Categories,
-                  as: 'categories',
+                  as: 'Categories',
                 },
               ],
             limit: pageSize,
             offset: (page - 1) * pageSize,
             where,
         })
-        const count = post.length
-        let message = count + " data taken"
+
+        const posts = await Posts.findAll() 
+        const count = posts.length
+        let message = post.length + " data taken"
         const resp = buildResponse.get({ message, count, data: post})
 
         res.status(200).json(resp)
@@ -117,7 +119,15 @@ const getPostBySlug = async (req, res) => {
     try {
         const slug = req.params.slug
     
-        const data = await Posts.findAll({ where: { slug } })
+        const data = await Posts.findAll({ 
+            where: { slug }, 
+            include: [
+                {
+                  model: Categories,
+                  as: 'Categories',
+                },
+              ],
+        })
 
         const resp = buildResponse.get({data})
         
@@ -136,7 +146,14 @@ const getPostBySlug = async (req, res) => {
 const getPostById = async (req, res) => {
     try {
         const id = req.params.id
-        const data = await Posts.findByPk(id)
+        const data = await Posts.findByPk(id, {
+            include: [
+                {
+                  model: Categories,
+                  as: 'Categories',
+                },
+              ],
+        })
     
         if (!data) {
             throw new Error('Post Not Found')

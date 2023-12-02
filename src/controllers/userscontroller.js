@@ -36,7 +36,7 @@ const getAllUsers = async (req, res) => {
             include: [
                     {
                         model: Files,
-                        as: 'avatarData'
+                        as: 'Avatar'
                     }
                 ],
             limit: pageSize,
@@ -44,8 +44,9 @@ const getAllUsers = async (req, res) => {
             where,
         })
 
-        const count = user.length
-        let message = count + " data taken"
+        const users = await Users.findAll() 
+        const count = users.length
+        let message = user.length + " data taken"
         const resp = buildResponse.get({ message, count, data: user})
 
         res.status(200).json(resp)
@@ -143,11 +144,20 @@ const updateUser = async (req, res) => {
 const getUserById = async (req, res) => {
     try {
         const id = req.params.id;
-        const user = await Users.findByPk(id);
+        const user = await Users.findByPk(id,
+            {
+                include: [
+                        {
+                            model: Files,
+                            as: 'Avatar'
+                        }
+                    ],
+        });
 
         const resp = buildResponse.get({user})
         res.status(200).json(resp);
     } catch (error) {
+        console.log('error', error);
         res.status(500).json({ message: 'Internal server error' });
     }
 }

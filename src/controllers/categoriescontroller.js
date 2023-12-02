@@ -1,4 +1,4 @@
-const { Categories } = require('../../models')
+const { Categories, Posts } = require('../../models')
 const buildResponse = require('../modules/buildresponse')
 const yup = require('yup')
 
@@ -20,17 +20,26 @@ const getAllCategories = async(req, res) => {
         }
         
         const category = await Categories.findAll({
+            include: [
+                {
+                  model: Posts,
+                  as: 'Posts',
+                },
+              ],
             limit: pageSize,
             offset: (page - 1) * pageSize,
             where,
         })
-        const count = category.length
-        let message = count + " data taken"
+
+        const categories = await Categories.findAll() 
+        const count = categories.length
+        let message = category.length + " data taken"
 
 
         const resp = buildResponse.get({message, count, category})
         res.status(200).json(resp)
     } catch (error) {
+        console.log('error', error);
         res.status(500).json({ message: "Internal Server Error" })
         
     }
@@ -101,7 +110,14 @@ const updateCategory = async (req, res) => {
 const getCategoryById = async (req, res) => {
     try {
         const id = req.params.id;
-        const category = await Categories.findByPk(id);
+        const category = await Categories.findByPk(id, {
+            include: [
+                {
+                  model: Posts,
+                  as: 'Posts',
+                },
+              ]
+        });
         const resp = buildResponse.get({category})
         res.status(200).json(resp);
     } catch (error) {
